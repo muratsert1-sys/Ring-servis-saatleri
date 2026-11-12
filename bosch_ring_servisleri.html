@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#087db8">
+<title>BOSCH Ring Servis | Bursa Fabrikaları</title>
+<style>
+:root{--blue:#08618f;--blue2:#087db8;--ink:#202124;--muted:#777b80;--bg:#f1f1f6;--line:#e8e8ed;--green:#35b86a}
+*{box-sizing:border-box}body{margin:0;background:#fff;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+.top{height:96px;background:#087db8;color:#fff;display:flex;align-items:center;padding:0 max(22px,calc((100% - 1000px)/2));font-size:29px;font-weight:300}
+.wrap{max-width:760px;margin:28px auto;background:var(--bg);padding:18px 18px 30px}
+.rainbow{height:7px;background:linear-gradient(90deg,#005b8f,#00a3c7,#39a85b,#d4d51b,#f28c00,#e31c35,#92278f);margin:0 0 22px}
+.brand{display:flex;align-items:center;gap:16px;margin:0 8px 22px}.bosch{font-size:34px;font-weight:800;color:#d71920;letter-spacing:-1px}.brandline{height:40px;border-left:2px solid #c8c8cc}.brandname{font-size:22px;font-weight:700}.sub{font-size:15px;color:#8a8a8a;font-weight:600;margin-top:2px}.clock{margin-left:auto;background:#e5e5e9;border-radius:30px;padding:11px 17px;font-size:18px;font-weight:700;white-space:nowrap}.dot{color:var(--green);margin-right:8px}
+.panel{background:#fff;border-radius:24px;padding:18px;margin-bottom:18px;box-shadow:0 8px 24px #182b4410}
+.segment{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;border-radius:24px;background:#fff;padding:12px;margin-bottom:22px;box-shadow:0 4px 15px #0000000a}.segment button,.factory button,.day button{border:0;border-radius:15px;padding:12px 17px;background:#f1f1f5;color:#36383c;font-weight:700;font-size:16px;cursor:pointer}.segment button.active,.factory button.active,.day button.active{background:var(--blue);color:#fff}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;color:#62656b;font-weight:800;margin:12px 3px 10px}.sectionhead strong{color:var(--blue)}
+.factory{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;background:#e5e5e9;padding:7px;border-radius:22px;margin-bottom:22px}.factory button{background:transparent;padding:13px 4px;font-size:18px}.factory small{display:block;font-size:12px;color:#888;margin-top:4px}.factory button.active{background:#fff;color:#171717;box-shadow:0 4px 12px #0002}.factory button.active small{color:var(--blue)}
+.routehead{display:flex;align-items:center;gap:14px}.busicon{width:68px;height:68px;border-radius:22px;background:#eaf3f9;display:grid;place-items:center;font-size:34px}.routeinfo{flex:1}.eyebrow{font-size:14px;color:#8b8e92;font-weight:800}.route{font-size:25px;font-weight:800;margin-top:3px}.depart{text-align:right}.depart span{display:block;color:#92959a;font-size:14px;font-weight:800}.depart strong{font-size:38px;color:var(--blue)}
+.countbox{margin-top:20px;background:#f2f6f9;border:1px solid #d5e0e8;border-radius:24px;padding:22px}.countlabel{font-weight:700;color:#666}.countrow{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.count{font-size:42px;font-weight:800;letter-spacing:-1px}.trip{border:1px solid #d8dce0;border-radius:18px;padding:10px 16px;background:#fff;font-weight:700;color:#29465a}.status{margin-top:8px;color:var(--green);font-weight:700}.stops{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:22px}.stop{padding:11px 14px;border-radius:15px;background:#f0f0f4;font-weight:700}.stop.first{background:var(--blue);color:white}.stop.last{background:#e8f5e9;color:#387b43}.arrow{color:#999}
+.advice{font-size:16px;line-height:1.5}.advice strong{color:var(--blue)}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}.metric{background:#f7f8fa;border-radius:16px;padding:12px;text-align:center}.metric span{display:block;color:#999;font-size:12px;font-weight:700}.metric b{display:block;margin-top:4px}
+.day{display:flex;gap:8px;margin-bottom:15px}.day button{flex:1}
+.list{padding:0;overflow:hidden}.row{display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid #eee}.row:last-child{border-bottom:0}.timepill{background:#eaf3f9;color:var(--blue);font-size:20px;font-weight:800;padding:10px 13px;border-radius:14px;min-width:76px;text-align:center}.rowmain{flex:1}.rowroute{font-size:19px;font-weight:800}.rowdesc{color:#888;font-size:14px;margin-top:4px}.rowstate{color:var(--blue);font-weight:800;font-size:14px;text-align:right}.row.next{background:#eef6ff;border-left:7px solid var(--blue)}.row.past{opacity:.48}
+.note{font-size:12px;color:#85888d;line-height:1.5;margin:15px 4px}.error{color:#a35b00;font-size:12px;margin-top:5px}
+@media(max-width:520px){.top{height:78px;font-size:25px}.wrap{margin:0;padding:15px 12px 25px}.bosch{font-size:29px}.brandname{font-size:19px}.clock{font-size:15px;padding:10px}.route{font-size:21px}.depart strong{font-size:32px}.count{font-size:35px}.panel{padding:15px}.row{gap:10px;padding:14px 12px}.timepill{min-width:68px;font-size:18px}.rowroute{font-size:16px}.rowdesc{font-size:12px}.rowstate{font-size:12px}.metrics{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<header class="top">Ring Servisleri</header>
+<main class="wrap">
+<div class="rainbow"></div>
+<div class="brand"><div class="bosch">BOSCH</div><div class="brandline"></div><div><div class="brandname">Ring Servis</div><div class="sub">Bursa Fabrikaları</div></div><div class="clock"><span class="dot">●</span><span id="clock">Saat alınıyor…</span><div id="sync" class="error"></div></div></div>
+<div class="segment"><b style="color:#666">⏱ Saat Testi:</b><button class="active" id="liveBtn">🟢 Canlı</button><button data-test="08:35">08:35</button><button data-test="10:05">10:05</button><button data-test="12:25">12:25</button></div>
+<div class="sectionhead"><span>BULUNDUĞUNUZ FABRİKA</span><strong id="factoryLabel">BU1 (YEŞİL CD.)</strong></div>
+<div class="factory" id="factories">
+<button data-factory="BU1" class="active">Bu1<small>Yeşil Cd.</small></button>
+<button data-factory="BU2">Bu2<small>Eflatun Cd.</small></button>
+<button data-factory="BU4">Bu4<small>Sarı Cd.</small></button>
+<button data-factory="FREN">Fren<small>Fren Sis.</small></button>
+</div>
+<section class="panel">
+<div class="routehead"><div class="busicon">🚌</div><div class="routeinfo"><div class="eyebrow" id="routeEyebrow">BU1 ÇIKIŞLI SIRADAKİ RİNG</div><div class="route" id="routeText">Bu1 → Bu4 → Bu2</div></div><div class="depart"><span>KALKIŞ</span><strong id="departTime">--:--</strong></div></div>
+<div class="countbox"><div class="countlabel">Kalkışa Kalan Süre</div><div class="countrow"><div class="count" id="countdown">-- dk -- sn</div><div class="trip" id="tripNo">Sefer #—</div></div><div class="status" id="status">● Saat senkronizasyonu bekleniyor</div></div>
+<div class="eyebrow" style="margin-top:22px">GÜZERGÂH DURAKLARI</div><div class="stops" id="stops"><span class="stop first">Bu1 (Kalkış)</span><span class="arrow">›</span><span class="stop">Bu4 Fabrikası</span><span class="arrow">›</span><span class="stop last">Bu2 (Son Durak)</span></div>
+</section>
+<section class="panel"><div style="font-size:19px;font-weight:800">✨ Akıllı Ring Tavsiyesi</div><p class="advice" id="advice">Bir sonraki servis bilgisi hesaplanıyor.</p><div class="metrics"><div class="metric"><span>Yürüme Süresi</span><b id="walk">~3 dk</b></div><div class="metric"><span>Tahmini Doluluk</span><b>Rahat (bilgi yok)</b></div><div class="metric"><span>Çıkış Zamanı</span><b id="leave">--:--</b></div></div></section>
+<div class="sectionhead"><span id="listTitle">BU1 GÜNLÜK SEFERLERİ</span><strong id="tripCount">12 SEFER</strong></div>
+<div class="day"><button class="active" data-day="weekday">Hafta içi</button><button data-day="saturday">Cumartesi</button></div>
+<div class="panel list" id="schedule"></div>
+<p class="note">Saatler paylaşılan en güncel servis tarifesinden aktarılmıştır. Pazar günü servis yoktur. Bu1 ve Bu2 ringleri Bu4 üzerinden birbirine bağlanır; normal ring güzergâhında Bosch Fren durağı bulunmaz. Canlı saat internetten senkronize edilir; saat sunucularına erişilemiyorsa ekranda uyarı gösterilir.</p>
+</main>
+<script>
+const weekday={BU1:["07:55","08:40","09:25","10:10","11:00","11:45","12:30","13:40","14:20","15:05","15:55","16:40"],BU2:["08:20","09:05","09:50","10:40","11:25","12:10","12:50","14:00","14:45","15:30","16:20","17:17"]};
+const saturday={BU1:["07:55","08:55","09:55","10:55","11:55","13:55","14:55"],BU2:["08:30","09:30","10:30","11:30","13:30","14:30"]};
+let factory="BU1",day="weekday",serverNow=null,serverPerf=0,testTime=null,activeInterval=null;
+const $=id=>document.getElementById(id);
+function current(){return testTime?testTime:serverNow===null?null:serverNow+(performance.now()-serverPerf)}
+function fmt(ms){return new Date(ms).toLocaleTimeString("tr-TR",{timeZone:"Europe/Istanbul",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false})}
+function minutesToday(ms){const d=new Date(ms);return Number(new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/Istanbul",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"}).format(d).replace(/:/g,""))}
+function getLocalParts(ms){const p=new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/Istanbul",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"}).formatToParts(new Date(ms));return Object.fromEntries(p.map(x=>[x.type,x.value]));}
+function secOfDay(ms){const p=getLocalParts(ms);return +p.hour*3600 + +p.minute*60 + +p.second;}
+function schedule(){return (day==="weekday"?weekday:saturday)[factory==="BU2"?"BU2":"BU1"]||[]}
+function routeInfo(){return factory==="BU2"?{from:"Bu2",to:"Bu1",text:"Bu2 → Bu4 → Bu1"}:{from:"Bu1",to:"Bu2",text:"Bu1 → Bu4 → Bu2"}}
+function render(){
+ const now=current();const isSunday=now!==null&&new Date(now).toLocaleDateString("en-US",{timeZone:"Europe/Istanbul",weekday:"long"})==="Sunday";
+ const isSaturday=day==="saturday";
+ const arr=schedule();const sec=now===null?null:secOfDay(now);
+ const upcoming=sec===null?-1:arr.findIndex(t=>{const [h,m]=t.split(":").map(Number);return h*3600+m*60>sec});
+ const info=routeInfo();
+ $("factoryLabel").textContent=factory==="BU1"?"BU1 (YEŞİL CD.)":factory==="BU2"?"BU2 (EFLATUN CD.)":factory==="BU4"?"BU4 (SARI CD.)":"FREN";
+ $("routeEyebrow").textContent=info.from.toUpperCase()+" ÇIKIŞLI SIRADAKİ RİNG";
+ $("routeText").textContent=info.text;
+ $("stops").innerHTML=`<span class="stop first">${info.from} (Kalkış)</span><span class="arrow">›</span><span class="stop">Bu4 Fabrikası</span><span class="arrow">›</span><span class="stop last">${info.to} (Son Durak)</span>`;
+ $("listTitle").textContent=factory+" GÜNLÜK SEFERLERİ";
+ $("tripCount").textContent=arr.length+" SEFER";
+ if(factory==="BU4"||factory==="FREN"){
+   $("departTime").textContent="—";$("countdown").textContent="—";$("tripNo").textContent="Bilgi";$("status").textContent="Bu ekran için ayrı kalkış tarifesi paylaşılmadı.";$("advice").textContent="Bu4 ara duraktır. Bu1 veya Bu2 yönünden gelen ringi kullanabilirsiniz.";$("leave").textContent="—";
+ }else if(isSunday){
+   $("departTime").textContent="—";$("countdown").textContent="Servis yok";$("tripNo").textContent="Pazar";$("status").textContent="Pazar günü servis çalışmıyor.";$("advice").textContent="Bugün ring servisi bulunmuyor.";$("leave").textContent="—";
+ }else if(upcoming<0){
+   $("departTime").textContent="—";$("countdown").textContent="Seferler bitti";$("tripNo").textContent="—";$("status").textContent="Bugünkü seferler tamamlandı.";$("advice").textContent="Bugünkü ring seferleri sona erdi.";$("leave").textContent="—";
+ }else{
+   const t=arr[upcoming],[h,m]=t.split(":").map(Number);const remain=h*3600+m*60-sec;
+   $("departTime").textContent=t;$("countdown").textContent=`${Math.floor(remain/60)} dk ${remain%60} sn`;$("tripNo").textContent="Sefer #"+(upcoming+1);$("status").textContent="● Zamanında planlandı";const leave=new Date(now+(remain-180)*1000);$("leave").textContent=new Intl.DateTimeFormat("tr-TR",{timeZone:"Europe/Istanbul",hour:"2-digit",minute:"2-digit",hour12:false}).format(leave);$("advice").innerHTML=`${info.from} durağına yürüme süresi <strong>~3 dakikadır.</strong> En geç <strong>${$("leave").textContent}</strong>'de ofisinizden çıkmanız tavsiye edilir.`;
+ }
+ $("schedule").innerHTML=arr.map((t,i)=>{const [h,m]=t.split(":").map(Number),s=h*3600+m*60;let cls="row",state=t;if(now!==null&&sec!==null){if(upcoming===i)cls+=" next";else if(s<sec)cls+=" past";if(upcoming===i)state="● Sıradaki";}return `<div class="${cls}"><div class="timepill">${t}</div><div class="rowmain"><div class="rowroute">${routeInfo().text}</div><div class="rowdesc">Sefer #${i+1} · ${i===0?"İlk ring":i===6?"Öğle ringi":"Normal ring"}</div></div><div class="rowstate">${state}</div></div>`}).join("");
+ if(now!==null)$("clock").textContent=fmt(now);
+}
+async function sync(){
+ const endpoints=[
+  async()=>{const r=await fetch("https://timeapi.io/api/Time/current/zone?timeZone=UTC",{cache:"no-store"});if(!r.ok)throw 0;const v=(await r.json()).dateTime;return Date.parse(/[zZ]|[+-]\\d\\d:\\d\\d$/.test(v)?v:v+"Z")},
+  async()=>{const r=await fetch("https://worldtimeapi.org/api/timezone/Europe/Istanbul",{cache:"no-store"});if(!r.ok)throw 0;return Date.parse((await r.json()).utc_datetime)}
+ ];
+ for(const get of endpoints){try{const before=performance.now(),ts=await get(),after=performance.now();if(!Number.isFinite(ts))continue;serverNow=ts+(after-before)/2;serverPerf=after;
+ const weekdayName=new Date(serverNow).toLocaleDateString("en-US",{timeZone:"Europe/Istanbul",weekday:"long"});
+ if(!window.dayWasChosen){day=weekdayName==="Saturday"?"saturday":"weekday";document.querySelectorAll("[data-day]").forEach(x=>x.classList.toggle("active",x.dataset.day===day));}
+ $("sync").textContent="İnternet saati senkronize";render();return}catch(e){}}
+ $("sync").textContent="İnternet saati alınamadı · cihaz saati kullanılmıyor";$("clock").textContent="--:--:--";render();
+}
+$("factories").addEventListener("click",e=>{const b=e.target.closest("button[data-factory]");if(!b)return;factory=b.dataset.factory;document.querySelectorAll("[data-factory]").forEach(x=>x.classList.toggle("active",x===b));render()});
+document.querySelectorAll("[data-day]").forEach(b=>b.addEventListener("click",()=>{day=b.dataset.day;window.dayWasChosen=true;document.querySelectorAll("[data-day]").forEach(x=>x.classList.toggle("active",x===b));render()}));
+document.querySelectorAll("[data-test]").forEach(b=>b.addEventListener("click",()=>{const [h,m]=b.dataset.test.split(":").map(Number);const d=new Date();const parts=getLocalParts(Date.now());const base=Date.now();const target=secOfDay(base);testTime=base+(h*3600+m*60-target)*1000;$("liveBtn").classList.remove("active");document.querySelectorAll("[data-test]").forEach(x=>x.classList.toggle("active",x===b));render()}));
+$("liveBtn").addEventListener("click",()=>{testTime=null;$("liveBtn").classList.add("active");document.querySelectorAll("[data-test]").forEach(x=>x.classList.remove("active"));render()});
+sync();setInterval(render,250);setInterval(sync,15*60*1000);
+</script>
+</body></html>
