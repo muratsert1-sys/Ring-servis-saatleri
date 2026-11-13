@@ -45,7 +45,7 @@
 <div class="countbox"><div class="countlabel">Kalkışa Kalan Süre</div><div class="countrow"><div class="count" id="countdown">-- dk -- sn</div><div class="trip" id="tripNo">Sefer #—</div></div><div class="status" id="status">● Saat senkronizasyonu bekleniyor</div></div>
 <div class="eyebrow" style="margin-top:22px">GÜZERGÂH DURAKLARI</div><div class="stops" id="stops"><span class="stop first">Bu1 (Kalkış)</span><span class="arrow">›</span><span class="stop">Bu4 Fabrikası</span><span class="arrow">›</span><span class="stop last">Bu2 (Son Durak)</span></div>
 </section>
-<section class="panel"><div style="font-size:19px;font-weight:800;margin-bottom:12px">🗺️ Canlı Ring Haritası</div><div class="mapmeta"><span id="mapStatus">Harita yükleniyor…</span><b>UZTUR · 27 kişilik midibüs</b></div><div class="mapwrap"><div id="ringMap"></div></div><div class="maplegend"><span><i class="legend-dot"></i> Fabrika / durak</span><span><i class="legend-line"></i> Ring güzergâhı</span><span>🚐 Araç konumu saat tarifesine göre hareket eder</span></div></section>
+<section class="panel"><div style="font-size:19px;font-weight:800;margin-bottom:12px">🗺️ Canlı Ring Haritası</div><div class="mapmeta"><span id="mapStatus">Harita yükleniyor…</span><b>UZTUR · 27 kişilik midibüs</b></div><div class="mapwrap"><div id="ringMap"></div></div><div class="maplegend"><span><i class="legend-dot"></i> Fabrika / durak</span><span><i class="legend-line"></i> Ring güzergâhı</span><span>🚐 Araç BU1/BU2’de bekler; BU4/Fren’de durmadan yolcu alır</span></div></section>
 <section class="panel"><div style="font-size:19px;font-weight:800">✨ Akıllı Ring Tavsiyesi</div><p class="advice" id="advice">Bir sonraki servis bilgisi hesaplanıyor.</p><div class="metrics"><div class="metric"><span>Yürüme Süresi</span><b id="walk">~3 dk</b></div><div class="metric"><span>Tahmini Doluluk</span><b>Rahat (bilgi yok)</b></div><div class="metric"><span>Çıkış Zamanı</span><b id="leave">--:--</b></div></div></section>
 <div class="sectionhead"><span id="listTitle">BU1 GÜNLÜK SEFERLERİ</span><strong id="tripCount">12 SEFER</strong></div>
 <div class="day"><button class="active" data-day="weekday">Hafta içi</button><button data-day="saturday">Cumartesi</button></div>
@@ -93,7 +93,44 @@ function initMap(){if(!window.L){$("mapStatus").textContent="Harita kütüphanes
 async function getRoute(a,b){const key=a+"-"+b;if(routePaths[key])return routePaths[key];const A=places[a],B=places[b];try{const url=`https://router.project-osrm.org/route/v1/driving/${A.lng},${A.lat};${B.lng},${B.lat}?overview=full&geometries=geojson`;const r=await fetch(url);if(!r.ok)throw Error();const j=await r.json();if(!j.routes?.[0])throw Error();routePaths[key]=j.routes[0].geometry.coordinates.map(c=>L.latLng(c[1],c[0]));}catch(e){routePaths[key]=[L.latLng(A.lat,A.lng),L.latLng(B.lat,B.lng)];}return routePaths[key];}
 async function loadRoutes(){const needed=["BU1-FREN","FREN-BU4","BU4-BU2","BU2-BU4","BU4-FREN","FREN-BU1"];for(const key of needed){const [a,b]=key.split("-");const path=await getRoute(a,b);const line=L.polyline(path,{color:"#087db8",weight:4,opacity:.78}).addTo(map);routeLayers.push(line);}const bounds=L.latLngBounds(Object.values(places).map(x=>[x.lat,x.lng]));map.fitBounds(bounds.pad(.2));$("mapStatus").textContent="Güzergâh yüklendi · araç konumu tarife saatine göre güncellenir";updateVehicle(current());}
 function pointAlong(path,f){if(!path?.length)return null;if(path.length===1)return path[0];let lengths=[],total=0;for(let i=1;i<path.length;i++){const d=path[i-1].distanceTo(path[i]);lengths.push(d);total+=d;}let target=Math.max(0,Math.min(1,f))*total;for(let i=0;i<lengths.length;i++){if(target<=lengths[i])return L.latLng(path[i].lat+(path[i+1].lat-path[i].lat)*(target/lengths[i]),path[i].lng+(path[i+1].lng-path[i].lng)*(target/lengths[i]));target-=lengths[i];}return path[path.length-1];}
-function updateVehicle(now){if(!mapReady||!vehicleMarker)return;const trips=makeTrips(now),active=trips.find(tr=>now>=tr.start&&now<tr.start+tripDuration(tr)*60000),next=trips.find(tr=>tr.start>now);if(active){let elapsed=(now-active.start)/60000,leg=0;while(leg<active.route.length-1){const a=active.route[leg],b=active.route[leg+1],dur=legMinutes[a+"-"+b];if(elapsed<=dur)break;elapsed-=dur;leg++;}if(leg>=active.route.length-1)leg=active.route.length-2;const a=active.route[leg],b=active.route[leg+1],dur=legMinutes[a+"-"+b],path=routePaths[a+"-"+b]||[L.latLng(places[a].lat,places[a].lng),L.latLng(places[b].lat,places[b].lng)],pos=pointAlong(path,elapsed/dur);if(pos)vehicleMarker.setLatLng(pos);$("mapStatus").textContent=`UZTUR hareket halinde · ${a==="FREN"?"Bosch Fren":a} → ${b==="FREN"?"Bosch Fren":b} · ${Math.round(elapsed/dur*100)}%`;}else if(next){const start=next.route[0],v=places[start];vehicleMarker.setLatLng([v.lat,v.lng]);$("mapStatus").textContent=`Sıradaki hareket: ${start} · ${next.depart} kalkış`;}else{$("mapStatus").textContent="Bugünkü ring seferleri tamamlandı";}}
+function updateVehicle(now){
+ if(!mapReady||!vehicleMarker)return;
+ const trips=makeTrips(now);
+ const active=trips.find(tr=>now>=tr.start&&now<tr.start+tripDuration(tr)*60000);
+ const next=trips.find(tr=>tr.start>now);
+ if(active){
+  let elapsed=(now-active.start)/60000,leg=0;
+  while(leg<active.route.length-1){
+   const a=active.route[leg],b=active.route[leg+1],dur=legMinutes[a+"-"+b];
+   if(elapsed<dur)break;
+   elapsed-=dur;leg++;
+  }
+  if(leg>=active.route.length-1)leg=active.route.length-2;
+  const a=active.route[leg],b=active.route[leg+1],dur=legMinutes[a+"-"+b];
+  const path=routePaths[a+"-"+b]||[L.latLng(places[a].lat,places[a].lng),L.latLng(places[b].lat,places[b].lng)];
+  const pos=pointAlong(path,elapsed/dur);
+  if(pos)vehicleMarker.setLatLng(pos);
+  $("mapStatus").textContent=`UZTUR hareket halinde · ${a==="FREN"?"Bosch Fren":a} → ${b==="FREN"?"Bosch Fren":b} · ara durakta beklemeden devam ediyor`;
+  return;
+ }
+ // Seferler arasında araç terminalde bekler; ara duraklarda bekleme yapılmaz.
+ const completed=trips.filter(tr=>now>=tr.start+tripDuration(tr)*60000).slice(-1)[0];
+ if(completed){
+  const terminal=completed.route[completed.route.length-1],v=places[terminal];
+  vehicleMarker.setLatLng([v.lat,v.lng]);
+  if(next){
+   const mins=Math.max(0,Math.ceil((next.start-now)/60000));
+   $("mapStatus").textContent=`${terminal} noktasında bekliyor · sonraki kalkış ${next.depart} · ${mins} dk sonra`;
+  }else $("mapStatus").textContent=`${terminal} noktasında bekliyor · bugünkü seferler tamamlandı`;
+ }else if(next){
+  const terminal=next.route[0],v=places[terminal];
+  vehicleMarker.setLatLng([v.lat,v.lng]);
+  $("mapStatus").textContent=`${terminal} noktasında bekliyor · ${next.depart} saatinde kalkacak`;
+ }else{
+  const v=places.BU1;vehicleMarker.setLatLng([v.lat,v.lng]);
+  $("mapStatus").textContent="Bugünkü ring seferleri tamamlandı";
+ }
+}
 async function sync(){const endpoints=[async()=>{const r=await fetch("https://timeapi.io/api/Time/current/zone?timeZone=UTC",{cache:"no-store"});if(!r.ok)throw 0;const v=(await r.json()).dateTime;return Date.parse(/[zZ]|[+-]\d\d:\d\d$/.test(v)?v:v+"Z")},async()=>{const r=await fetch("https://worldtimeapi.org/api/timezone/Europe/Istanbul",{cache:"no-store"});if(!r.ok)throw 0;return Date.parse((await r.json()).utc_datetime)}];for(const get of endpoints){try{const before=performance.now(),ts=await get(),after=performance.now();if(!Number.isFinite(ts))continue;serverNow=ts+(after-before)/2;serverPerf=after;const wd=new Date(serverNow).toLocaleDateString("en-US",{timeZone:"Europe/Istanbul",weekday:"long"});if(!window.dayWasChosen){day=wd==="Saturday"?"saturday":"weekday";document.querySelectorAll("[data-day]").forEach(x=>x.classList.toggle("active",x.dataset.day===day));}$("sync").textContent="İnternet saati senkronize";render();return}catch(e){}}$("sync").textContent="İnternet saati alınamadı · cihaz saati kullanılıyor";serverNow=Date.now();serverPerf=performance.now();render();}
 $("factories").addEventListener("click",e=>{const b=e.target.closest("button[data-factory]");if(!b)return;factory=b.dataset.factory;document.querySelectorAll("[data-factory]").forEach(x=>x.classList.toggle("active",x===b));render();if(mapReady)map.setView([places[factory].lat,places[factory].lng],15);});
 document.querySelectorAll("[data-day]").forEach(b=>b.addEventListener("click",()=>{day=b.dataset.day;window.dayWasChosen=true;document.querySelectorAll("[data-day]").forEach(x=>x.classList.toggle("active",x===b));render();}));
