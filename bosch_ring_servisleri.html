@@ -4,493 +4,138 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#087db8">
-
 <title>BOSCH Ring Servis | Bursa Fabrikaları</title>
-
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
->
-
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-:root {
-  --blue: #08618f;
-  --blue2: #087db8;
-  --ink: #202124;
-  --muted: #777b80;
-  --bg: #f1f1f6;
-  --line: #e8e8ed;
-  --green: #35b86a;
-  --orange: #e58a00;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background: #fff;
-  color: var(--ink);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.top {
-  height: 96px;
-  background: var(--blue2);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  padding: 0 max(22px, calc((100% - 1000px) / 2));
-  font-size: 29px;
-  font-weight: 300;
-}
-
-.wrap {
-  max-width: 760px;
-  margin: 28px auto;
-  background: var(--bg);
-  padding: 18px 18px 30px;
-}
-
-.rainbow {
-  height: 7px;
-  margin-bottom: 22px;
-  background: linear-gradient(
-    90deg,
-    #005b8f,
-    #00a3c7,
-    #39a85b,
-    #d4d51b,
-    #f28c00,
-    #e31c35,
-    #92278f
-  );
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin: 0 8px 22px;
-}
-
-.bosch {
-  color: #d71920;
-  font-size: 34px;
-  font-weight: 800;
-  letter-spacing: -1px;
-}
-
-.brandline {
-  height: 40px;
-  border-left: 2px solid #c8c8cc;
-}
-
-.brandname {
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.sub {
-  margin-top: 2px;
-  color: #8a8a8a;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.clock {
-  margin-left: auto;
-  padding: 11px 17px;
-  background: #e5e5e9;
-  border-radius: 30px;
-  font-size: 18px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.dot {
-  margin-right: 8px;
-  color: var(--green);
-}
-
-.error {
-  margin-top: 5px;
-  color: #a35b00;
-  font-size: 11px;
-  text-align: center;
-}
-
-.panel {
-  margin-bottom: 18px;
-  padding: 18px;
-  background: #fff;
-  border-radius: 24px;
-  box-shadow: 0 8px 24px #182b4410;
-}
-
-.segment {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 22px;
-  padding: 12px;
-  background: #fff;
-  border-radius: 24px;
-  box-shadow: 0 4px 15px #0000000a;
-}
-
-.segment button,
-.factory button,
-.day button {
-  padding: 12px 17px;
-  border: 0;
-  border-radius: 15px;
-  background: #f1f1f5;
-  color: #36383c;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.segment button.active,
-.day button.active {
-  background: var(--blue);
-  color: #fff;
-}
-
-.sectionhead {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 12px 3px 10px;
-  color: #62656b;
-  font-weight: 800;
-}
-
-.sectionhead strong {
-  color: var(--blue);
-}
-
-.factory {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 7px;
-  margin-bottom: 22px;
-  padding: 7px;
-  background: #e5e5e9;
-  border-radius: 22px;
-}
-
-.factory button {
-  padding: 13px 4px;
-  background: transparent;
-  font-size: 18px;
-}
-
-.factory small {
-  display: block;
-  margin-top: 4px;
-  color: #888;
-  font-size: 12px;
-}
-
-.factory button.active {
-  background: #fff;
-  color: #171717;
-  box-shadow: 0 4px 12px #0002;
-}
-
-.factory button.active small {
-  color: var(--blue);
-}
-
-.routehead {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.busicon {
-  width: 68px;
-  height: 68px;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  background: #eaf3f9;
-  border-radius: 22px;
-  font-size: 34px;
-}
-
-.routeinfo {
-  flex: 1;
-}
-
-.eyebrow {
-  color: #8b8e92;
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.route {
-  margin-top: 3px;
-  font-size: 24px;
-  font-weight: 800;
-}
-
-.depart {
-  text-align: right;
-}
-
-.depart span {
-  display: block;
-  color: #92959a;
-  font-size: 14px;
-  font-weight: 800;
-}
-
-.depart strong {
-  color: var(--blue);
-  font-size: 38px;
-}
-
-.countbox {
-  margin-top: 20px;
-  padding: 22px;
-  background: #f2f6f9;
-  border: 1px solid #d5e0e8;
-  border-radius: 24px;
-}
-
-.countlabel {
-  color: #666;
-  font-weight: 700;
-}
-
-.countrow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.count {
-  font-size: 42px;
-  font-weight: 800;
-  letter-spacing: -1px;
-}
-
-.trip {
-  padding: 10px 16px;
-  background: #fff;
-  border: 1px solid #d8dce0;
-  border-radius: 18px;
-  color: #29465a;
-  font-weight: 700;
-}
-
-.status {
-  margin-top: 8px;
-  color: var(--green);
-  font-weight: 700;
-}
-
-.stops {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 22px;
-}
-
-.stop {
-  padding: 11px 14px;
-  background: #f0f0f4;
-  border-radius: 15px;
-  font-weight: 700;
-}
-
-.stop.first {
-  background: var(--blue);
-  color: #fff;
-}
-
-.stop.last {
-  background: #e8f5e9;
-  color: #387b43;
-}
-
-.arrow {
-  color: #999;
-}
-
-.mapwrap {
-  position: relative;
-  height: 390px;
-  overflow: hidden;
-  background: #e9eef1;
-  border-radius: 18px;
-}
-
-#ringMap {
-  width: 100%;
-  height: 100%;
-}
-
-.mapmeta {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin: 0 2px 12px;
-  color: #66717a;
-  font-size: 13px;
-}
-
-.mapmeta b {
-  color: var(--blue);
-}
-
-.maplegend {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-top: 10px;
-  color: #69737b;
-  font-size: 12px;
-}
-
-.maplegend span {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.legend-dot {
-  width: 10px;
-  height: 10px;
-  display: inline-block;
-  background: var(--blue2);
-  border-radius: 50%;
-}
-
-.legend-line {
-  width: 18px;
-  height: 3px;
-  display: inline-block;
-  background: var(--blue2);
-}
-
-.vehicle-marker {
-  background: transparent;
-  border: 0;
-}
-
-.van {
-  width: 66px;
-  height: 38px;
-  filter: drop-shadow(0 2px 3px #0005);
-}
-
-.advice {
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-.advice strong {
-  color: var(--blue);
-}
-
-.metrics {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 16px;
-}
-
-.metric {
-  padding: 12px;
-  background: #f7f8fa;
-  border-radius: 16px;
-  text-align: center;
-}
-
-.metric span {
-  display: block;
-  color: #999;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.metric b {
-  display: block;
-  margin-top: 4px;
-}
-
-.day {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 15px;
-}
-
-.day button {
-  flex: 1;
-}
-
-.list {
-  padding: 0;
-  overflow: hidden;
-}
-
-.row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 16px 18px;
-  border-bottom: 1px solid #eee;
-}
-
-.row:last-child {
-  border-bottom: 0;
-}
-
-.row.next {
-  background: #eef6ff;
-  border-left: 7px solid var(--blue);
-}
-
-.row.past {
-  opacity: 0.48;
-}
-
-.timepill {
-  min-width: 76px;
-  padding: 10px 13px;
-  background: #eaf3f9;
-  border-radius: 14px;
-  color: var(--blue);
-  font-size: 20px;
-  font-weight: 800;
-  text-align: center;
-}
-
-.rowmain {
-  flex: 1;
-}
-
-.rowroute {
-  font-size: 19px;
-  font-weight: 800;
-}
-
-.rowdesc {
-  margin-top: 4px;
-  color: #888;
-  font-size: 14px;
-}
-
-.rowstate {
-   
+:root{--blue:#08618f;--blue2:#087db8;--ink:#202124;--muted:#777b80;--bg:#f1f1f6;--line:#e8e8ed;--green:#35b86a}
+*{box-sizing:border-box}body{margin:0;background:#fff;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+.top{height:96px;background:#087db8;color:#fff;display:flex;align-items:center;padding:0 max(22px,calc((100% - 1000px)/2));font-size:29px;font-weight:300}
+.wrap{max-width:760px;margin:28px auto;background:var(--bg);padding:18px 18px 30px}
+.rainbow{height:7px;background:linear-gradient(90deg,#005b8f,#00a3c7,#39a85b,#d4d51b,#f28c00,#e31c35,#92278f);margin:0 0 22px}
+.brand{display:flex;align-items:center;gap:16px;margin:0 8px 22px}.bosch{font-size:34px;font-weight:800;color:#d71920;letter-spacing:-1px}.brandline{height:40px;border-left:2px solid #c8c8cc}.brandname{font-size:22px;font-weight:700}.sub{font-size:15px;color:#8a8a8a;font-weight:600;margin-top:2px}.clock{margin-left:auto;background:#e5e5e9;border-radius:30px;padding:11px 17px;font-size:18px;font-weight:700;white-space:nowrap}.dot{color:var(--green);margin-right:8px}
+.panel{background:#fff;border-radius:24px;padding:18px;margin-bottom:18px;box-shadow:0 8px 24px #182b4410}
+.segment{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;border-radius:24px;background:#fff;padding:12px;margin-bottom:22px;box-shadow:0 4px 15px #0000000a}.segment button,.factory button,.day button{border:0;border-radius:15px;padding:12px 17px;background:#f1f1f5;color:#36383c;font-weight:700;font-size:16px;cursor:pointer}.segment button.active,.factory button.active,.day button.active{background:var(--blue);color:#fff}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;color:#62656b;font-weight:800;margin:12px 3px 10px}.sectionhead strong{color:var(--blue)}
+.factory{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;background:#e5e5e9;padding:7px;border-radius:22px;margin-bottom:22px}.factory button{background:transparent;padding:13px 4px;font-size:18px}.factory small{display:block;font-size:12px;color:#888;margin-top:4px}.factory button.active{background:#fff;color:#171717;box-shadow:0 4px 12px #0002}.factory button.active small{color:var(--blue)}
+.routehead{display:flex;align-items:center;gap:14px}.busicon{width:68px;height:68px;border-radius:22px;background:#eaf3f9;display:grid;place-items:center;font-size:34px}.routeinfo{flex:1}.eyebrow{font-size:14px;color:#8b8e92;font-weight:800}.route{font-size:25px;font-weight:800;margin-top:3px}.depart{text-align:right}.depart span{display:block;color:#92959a;font-size:14px;font-weight:800}.depart strong{font-size:38px;color:var(--blue)}
+.countbox{margin-top:20px;background:#f2f6f9;border:1px solid #d5e0e8;border-radius:24px;padding:22px}.countlabel{font-weight:700;color:#666}.countrow{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.count{font-size:42px;font-weight:800;letter-spacing:-1px}.trip{border:1px solid #d8dce0;border-radius:18px;padding:10px 16px;background:#fff;font-weight:700;color:#29465a}.status{margin-top:8px;color:var(--green);font-weight:700}.stops{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:22px}.stop{padding:11px 14px;border-radius:15px;background:#f0f0f4;font-weight:700}.stop.first{background:var(--blue);color:white}.stop.last{background:#e8f5e9;color:#387b43}.arrow{color:#999}
+.advice{font-size:16px;line-height:1.5}.advice strong{color:var(--blue)}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}.metric{background:#f7f8fa;border-radius:16px;padding:12px;text-align:center}.metric span{display:block;color:#999;font-size:12px;font-weight:700}.metric b{display:block;margin-top:4px}
+.day{display:flex;gap:8px;margin-bottom:15px}.day button{flex:1}
+.list{padding:0;overflow:hidden}.row{display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid #eee}.row:last-child{border-bottom:0}.timepill{background:#eaf3f9;color:var(--blue);font-size:20px;font-weight:800;padding:10px 13px;border-radius:14px;min-width:76px;text-align:center}.rowmain{flex:1}.rowroute{font-size:19px;font-weight:800}.rowdesc{color:#888;font-size:14px;margin-top:4px}.rowstate{color:var(--blue);font-weight:800;font-size:14px;text-align:right}.row.next{background:#eef6ff;border-left:7px solid var(--blue)}.row.past{opacity:.48}
+.note{font-size:12px;color:#85888d;line-height:1.5;margin:15px 4px}.error{color:#a35b00;font-size:12px;margin-top:5px}
+.mapwrap{height:390px;border-radius:18px;overflow:hidden;background:#e9eef1;position:relative}.mapmeta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:0 2px 12px;color:#66717a;font-size:13px}.mapmeta b{color:var(--blue)}#ringMap{height:100%;width:100%}.vehicle-marker{background:transparent;border:0}.van{width:66px;height:38px;filter:drop-shadow(0 2px 3px #0005)}.leaflet-popup-content{font-weight:700}.maplegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:#69737b}.maplegend span{display:flex;align-items:center;gap:6px}.legend-dot{width:10px;height:10px;border-radius:50%;background:#087db8;display:inline-block}.legend-line{width:18px;height:3px;background:#087db8;display:inline-block}
+@media(max-width:520px){.top{height:78px;font-size:25px}.wrap{margin:0;padding:15px 12px 25px}.bosch{font-size:29px}.brandname{font-size:19px}.clock{font-size:15px;padding:10px}.route{font-size:21px}.depart strong{font-size:32px}.count{font-size:35px}.panel{padding:15px}.row{gap:10px;padding:14px 12px}.timepill{min-width:68px;font-size:18px}.rowroute{font-size:16px}.rowdesc{font-size:12px}.rowstate{font-size:12px}.metrics{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<header class="top">Ring Servisleri</header>
+<main class="wrap">
+<div class="rainbow"></div>
+<div class="brand"><div class="bosch">BOSCH</div><div class="brandline"></div><div><div class="brandname">Ring Servis</div><div class="sub">Bursa Fabrikaları</div></div><div class="clock"><span class="dot">●</span><span id="clock">Saat alınıyor…</span><div id="sync" class="error"></div></div></div>
+<div class="segment"><b style="color:#666">⏱ Saat Testi:</b><button class="active" id="liveBtn">🟢 Canlı</button><button data-test="08:35">08:35</button><button data-test="10:05">10:05</button><button data-test="12:25">12:25</button></div>
+<div class="sectionhead"><span>BULUNDUĞUNUZ FABRİKA</span><strong id="factoryLabel">BU1 (YEŞİL CD.)</strong></div>
+<div class="factory" id="factories">
+<button data-factory="BU1" class="active">Bu1<small>Yeşil Cd.</small></button>
+<button data-factory="BU2">Bu2<small>Eflatun Cd.</small></button>
+<button data-factory="BU4">Bu4<small>Sarı Cd.</small></button>
+<button data-factory="FREN">Fren<small>Fren Sis.</small></button>
+</div>
+<section class="panel">
+<div class="routehead"><div class="busicon">🚌</div><div class="routeinfo"><div class="eyebrow" id="routeEyebrow">BU1 ÇIKIŞLI SIRADAKİ RİNG</div><div class="route" id="routeText">Bu1 → Bu4 → Bu2</div></div><div class="depart"><span>KALKIŞ</span><strong id="departTime">--:--</strong></div></div>
+<div class="countbox"><div class="countlabel">Kalkışa Kalan Süre</div><div class="countrow"><div class="count" id="countdown">-- dk -- sn</div><div class="trip" id="tripNo">Sefer #—</div></div><div class="status" id="status">● Saat senkronizasyonu bekleniyor</div></div>
+<div class="eyebrow" style="margin-top:22px">GÜZERGÂH DURAKLARI</div><div class="stops" id="stops"><span class="stop first">Bu1 (Kalkış)</span><span class="arrow">›</span><span class="stop">Bu4 Fabrikası</span><span class="arrow">›</span><span class="stop last">Bu2 (Son Durak)</span></div>
+</section>
+<section class="panel"><div style="font-size:19px;font-weight:800;margin-bottom:12px">🗺️ Canlı Ring Haritası</div><div class="mapmeta"><span id="mapStatus">Harita yükleniyor…</span><b>UZTUR · 27 kişilik midibüs</b></div><div class="mapwrap"><div id="ringMap"></div></div><div class="maplegend"><span><i class="legend-dot"></i> Fabrika / durak</span><span><i class="legend-line"></i> Ring güzergâhı</span><span>🚐 Araç BU1/BU2’de bekler; BU4/Fren’de durmadan yolcu alır</span></div></section>
+<section class="panel"><div style="font-size:19px;font-weight:800">✨ Akıllı Ring Tavsiyesi</div><p class="advice" id="advice">Bir sonraki servis bilgisi hesaplanıyor.</p><div class="metrics"><div class="metric"><span>Yürüme Süresi</span><b id="walk">~3 dk</b></div><div class="metric"><span>Tahmini Doluluk</span><b>Rahat (bilgi yok)</b></div><div class="metric"><span>Çıkış Zamanı</span><b id="leave">--:--</b></div></div></section>
+<div class="sectionhead"><span id="listTitle">BU1 GÜNLÜK SEFERLERİ</span><strong id="tripCount">12 SEFER</strong></div>
+<div class="day"><button class="active" data-day="weekday">Hafta içi</button><button data-day="saturday">Cumartesi</button></div>
+<div class="panel list" id="schedule"></div>
+<p class="note">Saatler paylaşılan servis tarifesidir. Pazar günü servis yoktur. Güzergâh: BU1 → Bosch Fren (4 dk) → BU4 (4 dk) → BU2 (2 dk); dönüş BU2 → BU4 (2 dk) → Bosch Fren (4 dk) → BU1 (4 dk). Bosch Fren ayrı kalkış tarifesi olmayan, ringin yolcu aldığı ara duraktır. Harita yol çizgisi OpenStreetMap/OSRM verisiyle oluşturulur; araç animasyonu tarifedeki saatlere göre ilerler.</p>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const weekday={BU1:["07:55","08:40","09:25","10:10","11:00","11:45","12:30","13:40","14:20","15:05","15:55","16:40"],BU2:["08:20","09:05","09:50","10:40","11:25","12:10","12:50","14:00","14:45","15:30","16:20","17:17"]};
+const saturday={BU1:["07:55","08:55","09:55","10:55","11:55","13:55","14:55"],BU2:["08:30","09:30","10:30","11:30","13:30","14:30"]};
+const places={BU1:{name:"BU1 · Yeşil Cd.",lat:40.246077,lng:28.949411},FREN:{name:"Bosch Fren",lat:40.242464,lng:28.959316},BU4:{name:"BU4 · Sarı Cd.",lat:40.232127,lng:28.949572},BU2:{name:"BU2 · Eflatun Cd.",lat:40.232092,lng:28.945769}};
+const forward=["BU1","FREN","BU4","BU2"],reverse=["BU2","BU4","FREN","BU1"];
+const legMinutes={"BU1-FREN":4,"FREN-BU4":4,"BU4-BU2":2,"BU2-BU4":2,"BU4-FREN":4,"FREN-BU1":4};
+let factory="BU1",day="weekday",serverNow=null,serverPerf=0,testTime=null,map=null,vehicleMarker=null,routeLayers=[],routePaths={},mapReady=false;
+const $=id=>document.getElementById(id);
+function current(){return testTime!==null?testTime:serverNow===null?Date.now():serverNow+(performance.now()-serverPerf)}
+function fmt(ms){return new Date(ms).toLocaleTimeString("tr-TR",{timeZone:"Europe/Istanbul",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false})}
+function getLocalParts(ms){const p=new Intl.DateTimeFormat("en-GB",{timeZone:"Europe/Istanbul",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"}).formatToParts(new Date(ms));return Object.fromEntries(p.map(x=>[x.type,x.value]));}
+function secOfDay(ms){const p=getLocalParts(ms);return +p.hour*3600 + +p.minute*60 + +p.second;}
+function localTimeMs(hm,base){const p=getLocalParts(base),[h,m]=hm.split(":").map(Number);return Date.UTC(+p.year,+p.month-1,+p.day,h,m)-3*3600000;}
+function todaySchedules(){return day==="weekday"?weekday:saturday}
+function makeTrips(now){const sch=todaySchedules(),trips=[];for(const dir of ["BU1","BU2"]){(sch[dir]||[]).forEach((t,i)=>{const route=dir==="BU1"?forward:reverse;trips.push({dir,index:i+1,start:localTimeMs(t,now),route,depart:t});});}return trips.sort((a,b)=>a.start-b.start)}
+function tripDuration(trip){return trip.route.slice(0,-1).reduce((n,a,i)=>n+legMinutes[a+"-"+trip.route[i+1]],0)}
+function eventList(now){const trips=makeTrips(now),events=[];for(const tr of trips){let offset=0;tr.route.forEach((code,i)=>{if(code===factory)events.push({time:tr.start+offset*60000,trip:tr,code,offset});if(i<tr.route.length-1)offset+=legMinutes[code+"-"+tr.route[i+1]];});}return events.sort((a,b)=>a.time-b.time)}
+function routeInfo(event){const r=event?.trip.route|| (factory==="BU2"?reverse:forward);return {from:r[0],to:r[r.length-1],text:r.map(x=>x==="FREN"?"Bosch Fren":x).join(" → "),route:r}}
+function render(){
+ const now=current(),p=getLocalParts(now),weekdayName=new Date(now).toLocaleDateString("en-US",{timeZone:"Europe/Istanbul",weekday:"long"}),isSunday=weekdayName==="Sunday";
+ const events=eventList(now),sec=secOfDay(now),upcoming=events.findIndex(e=>e.time>=now),next=upcoming>=0?events[upcoming]:null,info=routeInfo(next||events[0]);
+ const factoryNames={BU1:"BU1 (YEŞİL CD.)",BU2:"BU2 (EFLATUN CD.)",BU4:"BU4 (SARI CD.)",FREN:"BOSCH FREN"};
+ $("factoryLabel").textContent=factoryNames[factory];$("routeEyebrow").textContent=(next?next.trip.dir:"RİNG")+" YÖNÜ · SIRADAKİ GEÇİŞ";$("routeText").textContent=info.text;
+ const stops=info.route.map((code,i)=>`<span class="stop ${i===0?"first":i===info.route.length-1?"last":""}">${code==="FREN"?"Bosch Fren":code}${i===0?" (Kalkış)":i===info.route.length-1?" (Son Durak)":""}</span>`).join('<span class="arrow">›</span>');$("stops").innerHTML=stops;
+ $("listTitle").textContent=factory+" GÜNLÜK GEÇİŞLERİ";$("tripCount").textContent=events.length+" GEÇİŞ";
+ if(isSunday){$("departTime").textContent="—";$("countdown").textContent="Servis yok";$("tripNo").textContent="Pazar";$("status").textContent="Pazar günü servis çalışmıyor.";$("advice").textContent="Bugün ring servisi bulunmuyor.";$("leave").textContent="—";}
+ else if(!next){$("departTime").textContent="—";$("countdown").textContent="Seferler bitti";$("tripNo").textContent="—";$("status").textContent="Bugünkü geçişler tamamlandı.";$("advice").textContent="Bugünkü ring seferleri sona erdi.";$("leave").textContent="—";}
+ else{const remain=Math.max(0,Math.floor((next.time-now)/1000)),t=fmt(next.time).slice(0,5);$("departTime").textContent=t;$("countdown").textContent=`${Math.floor(remain/60)} dk ${remain%60} sn`;
+ const offsets={BU1:0,FREN:next.trip.dir==="BU1"?4:6,BU4:next.trip.dir==="BU1"?8:2,BU2:next.trip.dir==="BU1"?10:0};
+ $("tripNo").textContent="Sefer #"+next.trip.index;$("status").textContent=factory==="BU1"||factory==="BU2"?"● Planlı kalkış": "● Ringin ara duraktan geçişi";const leave=new Date(now+(remain-180)*1000);$("leave").textContent=new Intl.DateTimeFormat("tr-TR",{timeZone:"Europe/Istanbul",hour:"2-digit",minute:"2-digit",hour12:false}).format(leave);$("advice").innerHTML=factory==="BU1"||factory==="BU2"?`${factory} durağındaki ring kalkışına <strong>${Math.floor(remain/60)} dakika</strong> kaldı. Durağa yaklaşık 3 dakika önce gitmeni öneririm.`:`Ringin <strong>${t}</strong> saatinde ${factory==="FREN"?"Bosch Fren":"BU4"} noktasından geçmesi bekleniyor. Araç ayrı bir servis başlatmadan güzergâh üzerinden yolcu alır.`;}
+ $("schedule").innerHTML=events.map((e,i)=>{const t=fmt(e.time).slice(0,5),isNext=next===e,cls="row"+(isNext?" next":e.time<now?" past":""),direction=e.trip.dir==="BU1"?"BU1 → BU2":"BU2 → BU1";return `<div class="${cls}"><div class="timepill">${t}</div><div class="rowmain"><div class="rowroute">${direction}</div><div class="rowdesc">Sefer #${e.trip.index} · ${factory==="FREN"?"Bosch Fren geçişi":factory==="BU4"?"BU4 geçişi":"Kalkış"}</div></div><div class="rowstate">${isNext?"● Sıradaki":e.time<now?"Geçti":""}</div></div>`}).join("");
+ $("clock").textContent=fmt(now);updateVehicle(now);
+}
+function initMap(){if(!window.L){$("mapStatus").textContent="Harita kütüphanesi yüklenemedi. İnternet bağlantısını kontrol edin.";return;}map=L.map("ringMap",{scrollWheelZoom:false}).setView([40.2394,28.9525],14);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+ Object.entries(places).forEach(([code,v])=>{const marker=L.circleMarker([v.lat,v.lng],{radius:7,color:"#fff",weight:2,fillColor:"#087db8",fillOpacity:1}).addTo(map);marker.bindPopup(`<b>${v.name}</b>`);});
+ const svg=`<svg class="van" viewBox="0 0 120 68" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="9" width="108" height="45" rx="10" fill="#fff" stroke="#253746" stroke-width="3"/><path d="M15 15h80q9 0 9 8v12H15z" fill="#cfe8f5" stroke="#7c9aaa" stroke-width="1.5"/><path d="M19 18h22v14H19zm27 0h22v14H46zm27 0h22v14H73z" fill="#6e9caf"/><text x="57" y="46" text-anchor="middle" font-size="13" font-weight="900" fill="#08618f">UZTUR</text><circle cx="29" cy="55" r="9" fill="#25313b"/><circle cx="90" cy="55" r="9" fill="#25313b"/><circle cx="29" cy="55" r="4" fill="#cbd5dc"/><circle cx="90" cy="55" r="4" fill="#cbd5dc"/></svg>`;
+ vehicleMarker=L.marker([places.BU1.lat,places.BU1.lng],{icon:L.divIcon({className:"vehicle-marker",html:svg,iconSize:[66,38],iconAnchor:[33,19]}),zIndexOffset:1000}).addTo(map).bindPopup("UZTUR · 27 kişilik ring midibüsü");mapReady=true;loadRoutes();}
+async function getRoute(a,b){const key=a+"-"+b;if(routePaths[key])return routePaths[key];const A=places[a],B=places[b];try{const url=`https://router.project-osrm.org/route/v1/driving/${A.lng},${A.lat};${B.lng},${B.lat}?overview=full&geometries=geojson`;const r=await fetch(url);if(!r.ok)throw Error();const j=await r.json();if(!j.routes?.[0])throw Error();routePaths[key]=j.routes[0].geometry.coordinates.map(c=>L.latLng(c[1],c[0]));}catch(e){routePaths[key]=[L.latLng(A.lat,A.lng),L.latLng(B.lat,B.lng)];}return routePaths[key];}
+async function loadRoutes(){const needed=["BU1-FREN","FREN-BU4","BU4-BU2","BU2-BU4","BU4-FREN","FREN-BU1"];for(const key of needed){const [a,b]=key.split("-");const path=await getRoute(a,b);const line=L.polyline(path,{color:"#087db8",weight:4,opacity:.78}).addTo(map);routeLayers.push(line);}const bounds=L.latLngBounds(Object.values(places).map(x=>[x.lat,x.lng]));map.fitBounds(bounds.pad(.2));$("mapStatus").textContent="Güzergâh yüklendi · araç konumu tarife saatine göre güncellenir";updateVehicle(current());}
+function pointAlong(path,f){if(!path?.length)return null;if(path.length===1)return path[0];let lengths=[],total=0;for(let i=1;i<path.length;i++){const d=path[i-1].distanceTo(path[i]);lengths.push(d);total+=d;}let target=Math.max(0,Math.min(1,f))*total;for(let i=0;i<lengths.length;i++){if(target<=lengths[i])return L.latLng(path[i].lat+(path[i+1].lat-path[i].lat)*(target/lengths[i]),path[i].lng+(path[i+1].lng-path[i].lng)*(target/lengths[i]));target-=lengths[i];}return path[path.length-1];}
+function updateVehicle(now){
+ if(!mapReady||!vehicleMarker)return;
+ const trips=makeTrips(now);
+ const active=trips.find(tr=>now>=tr.start&&now<tr.start+tripDuration(tr)*60000);
+ const next=trips.find(tr=>tr.start>now);
+ if(active){
+  let elapsed=(now-active.start)/60000,leg=0;
+  while(leg<active.route.length-1){
+   const a=active.route[leg],b=active.route[leg+1],dur=legMinutes[a+"-"+b];
+   if(elapsed<dur)break;
+   elapsed-=dur;leg++;
+  }
+  if(leg>=active.route.length-1)leg=active.route.length-2;
+  const a=active.route[leg],b=active.route[leg+1],dur=legMinutes[a+"-"+b];
+  const path=routePaths[a+"-"+b]||[L.latLng(places[a].lat,places[a].lng),L.latLng(places[b].lat,places[b].lng)];
+  const pos=pointAlong(path,elapsed/dur);
+  if(pos)vehicleMarker.setLatLng(pos);
+  $("mapStatus").textContent=`UZTUR hareket halinde · ${a==="FREN"?"Bosch Fren":a} → ${b==="FREN"?"Bosch Fren":b} · ara durakta beklemeden devam ediyor`;
+  return;
+ }
+ // Seferler arasında araç terminalde bekler; ara duraklarda bekleme yapılmaz.
+ const completed=trips.filter(tr=>now>=tr.start+tripDuration(tr)*60000).slice(-1)[0];
+ if(completed){
+  const terminal=completed.route[completed.route.length-1],v=places[terminal];
+  vehicleMarker.setLatLng([v.lat,v.lng]);
+  if(next){
+   const mins=Math.max(0,Math.ceil((next.start-now)/60000));
+   $("mapStatus").textContent=`${terminal} noktasında bekliyor · sonraki kalkış ${next.depart} · ${mins} dk sonra`;
+  }else $("mapStatus").textContent=`${terminal} noktasında bekliyor · bugünkü seferler tamamlandı`;
+ }else if(next){
+  const terminal=next.route[0],v=places[terminal];
+  vehicleMarker.setLatLng([v.lat,v.lng]);
+  $("mapStatus").textContent=`${terminal} noktasında bekliyor · ${next.depart} saatinde kalkacak`;
+ }else{
+  const v=places.BU1;vehicleMarker.setLatLng([v.lat,v.lng]);
+  $("mapStatus").textContent="Bugünkü ring seferleri tamamlandı";
+ }
+}
+async function sync(){const endpoints=[async()=>{const r=await fetch("https://timeapi.io/api/Time/current/zone?timeZone=UTC",{cache:"no-store"});if(!r.ok)throw 0;const v=(await r.json()).dateTime;return Date.parse(/[zZ]|[+-]\d\d:\d\d$/.test(v)?v:v+"Z")},async()=>{const r=await fetch("https://worldtimeapi.org/api/timezone/Europe/Istanbul",{cache:"no-store"});if(!r.ok)throw 0;return Date.parse((await r.json()).utc_datetime)}];for(const get of endpoints){try{const before=performance.now(),ts=await get(),after=performance.now();if(!Number.isFinite(ts))continue;serverNow=ts+(after-before)/2;serverPerf=after;const wd=new Date(serverNow).toLocaleDateString("en-US",{timeZone:"Europe/Istanbul",weekday:"long"});if(!window.dayWasChosen){day=wd==="Saturday"?"saturday":"weekday";document.querySelectorAll("[data-day]").forEach(x=>x.classList.toggle("active",x.dataset.day===day));}$("sync").textContent="İnternet saati senkronize";render();return}catch(e){}}$("sync").textContent="İnternet saati alınamadı · cihaz saati kullanılıyor";serverNow=Date.now();serverPerf=performance.now();render();}
+$("factories").addEventListener("click",e=>{const b=e.target.closest("button[data-factory]");if(!b)return;factory=b.dataset.factory;document.querySelectorAll("[data-factory]").forEach(x=>x.classList.toggle("active",x===b));render();if(mapReady)map.setView([places[factory].lat,places[factory].lng],15);});
+document.querySelectorAll("[data-day]").forEach(b=>b.addEventListener("click",()=>{day=b.dataset.day;window.dayWasChosen=true;document.querySelectorAll("[data-day]").forEach(x=>x.classList.toggle("active",x===b));render();}));
+document.querySelectorAll("[data-test]").forEach(b=>b.addEventListener("click",()=>{const [h,m]=b.dataset.test.split(":").map(Number),base=Date.now(),target=secOfDay(base);testTime=base+(h*3600+m*60-target)*1000;$("liveBtn").classList.remove("active");document.querySelectorAll("[data-test]").forEach(x=>x.classList.toggle("active",x===b));render();}));
+$("liveBtn").addEventListener("click",()=>{testTime=null;$("liveBtn").classList.add("active");document.querySelectorAll("[data-test]").forEach(x=>x.classList.remove("active"));render();});
+initMap();sync();setInterval(render,1000);setInterval(sync,15*60*1000);
+</script>
+</body></html>
